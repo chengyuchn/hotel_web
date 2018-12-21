@@ -1,14 +1,14 @@
 import one from '../components/one.vue';
-import two from '../components/two.vue';
+import home from '../components/home.vue';
 
 export default[{
     path: '',
-    component: one,
-    redirect: '/one'
+    component: home,
+    redirect: '/home'
+},{
+    path: '/home',
+    component: home
 },{
     path: '/one',
     component: one
-},{
-    path: '/two',
-    component: two
 }]
