@@ -3,12 +3,14 @@ import App from './app.vue';
 import router from './router';  //引入路由 vue-route
 import axios from './config/ajax';  //引入axios
 import ElementUI from 'element-ui';   //引入element-ui
+import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueFullPage from 'vue-fullpage.js'
 
 import './assets/css/index.less';
 
 Vue.use(ElementUI);
 Vue.use(VueFullPage);
+Vue.use(VueAwesomeSwiper);
 
 Vue.prototype.$ajax = axios;  //原型挂载axios
 

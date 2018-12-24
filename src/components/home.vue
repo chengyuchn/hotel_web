@@ -1,41 +1,57 @@
 <template>
     <div class="home">
         <div class="headerNav">
-            <div class="logo"></div>
+            <div class="logo">程可爱吖</div>
             <div class="search">
                 <search-input :restaurants="restaurants"
+                :placeholder="'搜索'"
                 @select="select"
                 @iconClick="iconClick">
                 </search-input>
             </div>
             <div class="navbar">
-
+                <ul >
+                    <li class="navbarItem">首页</li>
+                    <li class="navbarItem">程可爱吖</li>
+                    <li class="navbarItem">程橙橙</li>
+                    <li class="navbarItem">登录</li>
+                    <li class="navbarItem">注册</li>
+                </ul>
             </div>
         </div>
-        <div class="banner">
-            <el-carousel :interval="5000" arrow="always">
-                <el-carousel-item v-for="(item,index) in bannerList"
-                :key="index"
-                :style="{background:'url('+item.img+') center center / cover no-repeat content-box'}">
-                <div class="bannerWord">
-                    <h1>{{ item.word1 }}</h1>
-                    <h1>{{ item.word1 }}</h1>
-                    <h3>{{ item.word2 }}</h3>
-                    <div class="bannerBtn">查看详情</div>
+        <div class="bannerBox">
+            <banner :bannerList="bannerList"></banner>
+        </div>
+        <div class="content">
+            <div class="contentSearch" :class="isFixed?'isFixed':''">
+                <search-input :restaurants="restaurants"
+                :placeholder="'目的地，城市，地址'"
+                @select="select"
+                @iconClick="iconClick">
+                </search-input>
+            </div>
+            <div class="hotelList">
+                <div class="hotHotel">
+                    <h1>人气目的地推荐</h1>
+                    <h4>来这里寻找春日渐暖的预兆</h4>
+                    <div class="">
+                    </div>
                 </div>
-                </el-carousel-item>
-            </el-carousel>
+            </div>
         </div>
     </div>    
 </template>
 <script>
-import searchInput from './common/searchInput.vue'
+import searchInput from './common/searchInput.vue';
+import banner from './common/banner.vue';
 export default {
     components:{
-        searchInput
+        searchInput,
+        banner
     },
     data(){
         return {
+            isFixed: false,
             searchValue: '',
             bannerList: [
                 {
@@ -104,16 +120,28 @@ export default {
             ],
         }
     },
+    computed:{
+    },
     methods: {
         select(i){
             console.log(i);
         },
         iconClick(i){
             console.log(i);
+        },
+        handleScroll(){
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+            var offsetTop = document.querySelector('.contentSearch').offsetTop;
+            console.log(scrollTop,offsetTop);
+            if(scrollTop > offsetTop){
+                this.isFixed = true;
+            }if(scrollTop <= 520){
+                this.isFixed = false;
+            }
         }
     },
     mounted(){
-        
+        window.addEventListener('scroll',this.handleScroll)
     }
 }
 </script>
@@ -128,54 +156,96 @@ export default {
             z-index: 100;
             display: flex;
             .logo{
-                flex-grow: 1;
+                width: 80px;
             }
             .search{
-                flex-grow: 1;
                 padding: 16px 0;
             }
             .navbar{
-                flex-grow: 4;
+                flex-grow: 1;
+                ul{
+                    float: right;
+                    margin-right: 20px;
+                    .navbarItem{
+                        float: left;
+                        height: 80px;
+                        padding: 0 10px;
+                        margin: 0 5px;
+                        line-height: 80px;
+                        color: #fff;
+                        cursor: pointer;
+                        font-weight: bold;
+                    }
+                    .navbarItem:hover{
+                        border-bottom: 2px #fff solid;
+                    }
+                }
             }
         }
-        .banner{
+        .bannerBox{
             width: 100%;
             height: 520px;
-            .el-carousel{
-                height: 520px;
+        }
+        .content{
+            height: 1000px;
+            width: 100%;
+            background: #fff;
+            padding-top: 20px;
+            .contentSearch{
+                width: 100%;
+                background: #fff;
+                text-align: center;
+                padding: 10px 0;
+                z-index: 101;
+            }
+            .isFixed{
+                position:fixed;
+                top:0;
+                padding: 10px 0;
+            }
+            .hotelList{
+                background: #f1f1f1;
+                width: 90%;
+                height: 500px;
+                margin: 0 auto;
+                .hotHotel{
+                    h1{
+                        font-weight: 800;
+                        font-size: 24px;
+                        line-height: 30px;
+                        font-family: Circular, "PingFang-SC", "Hiragino Sans GB", "微软雅黑", "Microsoft YaHei", "Heiti SC";
+                        color: #484848;
+                    }
+                    h2{
+                        line-height: 25px;
+                        font-family: Circular, "PingFang-SC", "Hiragino Sans GB", "微软雅黑", "Microsoft YaHei", "Heiti SC";
+                        color: #484848;
+                    }
+                    
+                }
             }
         }
     }
 </style>
 <style lang="less">
-    .home{
-        .el-carousel__container{
-            height: 100%;
+    .contentSearch{
+        .el-input{
+            width: 80%;
         }
-        .el-carousel__item{
-            .bannerWord{
-                margin: 180px 0 0 80px;
-                color: #fff;
-                h1{
-                    font-size: 32px;
-                    font-weight: 600;
-                }
-                h3{
-                    margin-top: 15px;
-                    font-size: 20px;
-                }
-                .bannerBtn{
-                    margin-top: 20px;
-                    width: 110px;
-                    height: 44px;
-                    border: solid #fff 3px;
-                    border-radius: 5px;
-                    text-align: center;
-                    line-height: 44px;
-                    font-size: 16px;
-                    font-weight: 500;
-                }
-            }
+        .el-input__inner{
+            height: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            padding-left: 55px;
+        }
+        .el-input__icon{
+            font-size: 24px;
+            font-weight: 800;
+            color: #000;
+        }
+        .el-input__prefix{
+            left: 15px;
         }
     }
 </style>
+

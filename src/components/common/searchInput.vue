@@ -4,7 +4,7 @@
         popper-class="my-autocomplete"
         v-model="searchValue"
         :fetch-suggestions="querySearch"
-        placeholder="搜索"
+        :placeholder="placeholder"
         @select="handleSelect"
         @keyup.enter.native="handleIconClick">
             <i class="el-icon-search el-input__icon" 
@@ -24,6 +24,10 @@ export default {
         restaurants: {
             type: Array,
             default: []
+        },
+        placeholder: {
+            type: String,
+            default: ''
         }
     },
     data(){
@@ -57,6 +61,7 @@ export default {
 </script>
 <style lang="less">
     .searchInput{
+        width: 100%;
         display: inline-block;
         .my-autocomplete {     
             li {
@@ -84,9 +89,13 @@ export default {
             font-weight: bold;
             padding-left: 40px;
         }
+        .el-autocomplete{
+            display: block;
+        }
         .el-input__icon{
-            font-size: 16px;
-            font-weight: bolder;
+            font-size: 20px;
+            font-weight: 800;
+            color: #000;
         }
     }
     .el-autocomplete-suggestion{
